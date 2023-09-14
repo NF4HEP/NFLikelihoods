@@ -105,9 +105,9 @@ def ComputeHDPIDif(hdpis_dict1,hdpis_dict2):
         
         
         
-        if k==0:
-            print('abs difs')
-            print(hdpi_dif1)
+        #if k==0:
+       
+           
       
         
         hdpi_dif2=[a_i - b_i for a_i, b_i in zip(hdpi_data1_sigma2[k], hdpi_data2_sigma2[k])]
@@ -148,10 +148,8 @@ def ComputeHDPIRelDif(hdpis_dict1,hdpis_dict_difs):
         hdpis_dict_rel_difs.get('mean_hdpi_1sigma').append(mean(hdpi_rel_dif1))
         
         
-        if k==0:
-            print('rel difs')
-            print(hdpi_rel_dif1)
-            print(mean(hdpi_rel_dif1))
+        #if k==0:
+           
             
         
         
@@ -219,10 +217,10 @@ def DrawCIs(figure,hdpis_dict_true,hdpis_dict_nf,ndims,selection_list,labels):
 
     # Loop over the diagonal
     for i in range(ndims):
-        print('hehrweogehgoweg')
+       
         ax = axes[i, i]
         ax.set_title(labels[i],loc='left')
-        print(hdpi_data_true_sigma1[i])
+      
         for j in range(len(hdpi_data_true_sigma1_sel[i])):
            
             ax.axvline(hdpi_data_true_sigma1_sel[i][0], color="r",ls='-')
@@ -303,8 +301,7 @@ def marginal_plot(target_samples,nf_samples,hdpis_dict_true,hdpis_dict_nf,path_t
 ]
 
     plt.rcParams.update({'font.size': 22})
-    print('ehllo marginal')
-    print(ndims)
+
     
     
         ##Get sigmas lists
@@ -329,7 +326,7 @@ def marginal_plot(target_samples,nf_samples,hdpis_dict_true,hdpis_dict_nf,path_t
         column=int(dim%4)
         
         
-        print(dim)
+     
         axs[row,column].hist(target_samples[:,dim], bins=n_bins,density=True,histtype='step',color='red')
         axs[row,column].hist(nf_samples[:,dim], bins=n_bins,density=True,histtype='step',color='blue')
       
@@ -383,9 +380,7 @@ def CornerPlotter(target_samples,nf_samples,hdpis_dict_true,hdpis_dict_nf,path_t
     blue_bins=(np.max(nf_samples,axis=0)-np.min(nf_samples,axis=0))/density
     blue_bins=blue_bins.astype(int).tolist()
 
-    print('fwefuhwleiguhlwEIUghlwegiuh;wEGHwoiehg')
-    print(np.shape(target_samples))
-    print(np.shape(nf_samples))
+
     figure=corner.corner(target_samples,color='red',bins=red_bins)
     corner.corner(nf_samples,color='blue',bins=blue_bins,fig=figure)
     ndims=np.shape(nf_samples)[1]
@@ -446,9 +441,6 @@ def GeneratePlotandHDPIResults(true_test_samples,nf_samples,path_to_result,ndims
 
     hdpi1,hdpi2,hdpi3=HDPI(true_test_samples[:,0])
 
-    print(hdpi1)
-    print(hdpi2)
-    print(hdpi3)
 
 
     bhdpi1,bhdpi2,bhdpi3=HDPI(nf_samples[:,0])
@@ -460,7 +452,7 @@ def GeneratePlotandHDPIResults(true_test_samples,nf_samples,path_to_result,ndims
 
     hdpis_dict_rel_difs=ComputeHDPIRelDif(hdpis_dict_true,hdpis_dict_difs)
 
-    print(hdpis_dict_rel_difs)
+
     
     SaveAllHDPI(hdpis_dict_rel_difs,ndims,ntest_samples, results_name,ks_test_list,path_to_result)
     

@@ -79,8 +79,7 @@ def load_hyperparams(path_to_results):
     hyperparams_path=path_to_results+'/hyperparams.txt'
     hyperparams_frame=pd.read_csv(hyperparams_path)
     lastone=int(hyperparams_frame.shape[0]-1)
-    print('lastone')
-    print(lastone)
+
     ndims=int(hyperparams_frame['ndims'][lastone])
     nsamples=int(hyperparams_frame['nsamples'][lastone])
     bijector_name=str(hyperparams_frame['bijector'][lastone])
@@ -149,10 +148,10 @@ def load_model(nf_dist,path_to_results,ndims,lr=.00001):
 
 
     x_ = Input(shape=(ndims,), dtype=tf.float32)
-    print(x_)
-    print(nf_dist)
+ 
+
     log_prob_ = nf_dist.log_prob(x_)
-    print('hello')
+
     model = Model(x_, log_prob_)
     model.compile(optimizer=tf.optimizers.Adam(learning_rate=lr),
                   loss=lambda _, log_prob: -log_prob)
@@ -190,10 +189,10 @@ def save_sample(nf_dist,path_to_results,sample_size=100000,iter_size=10000):
 
     sample_all=save_iter(nf_dist,sample_size,iter_size,n_iters)
     sample_all=sample_all.numpy()
-    print('hello')
+
 
     #print(np.shape(sample_all))
-    with open(path_to_results+'/nf_sample_200k_sf.npy', 'wb') as f:
+    with open(path_to_results+'/nf_sample.npy', 'wb') as f:
         np.save(f, sample_all, allow_pickle=True)
     print('samples saved')
     return
@@ -352,7 +351,7 @@ def preprocess_data(data,preprocess_params):
 def MeansAndStdMetrics(metric_result):
 
     metric_mean=np.mean(metric_result)
-    print(metric_mean)
+  
     metric_std=np.std(metric_result)
 
     return metric_mean,metric_std
@@ -371,7 +370,7 @@ def SaveResultsCurrentNewMetrics(results_dict_newmetrics,path_to_results):
     
     Frame=pd.DataFrame(results_dict_newmetrics)
     current_row= Frame.tail(1)
-    current_row.to_csv(path_to_results+'/results_new_metrics_sf.txt',index=False)
+    current_row.to_csv(path_to_results+'/results_new_metrics.txt',index=False)
 
     return
 
@@ -386,14 +385,14 @@ def SaveMeans(test_means):
 def GetReusltsForPOI(results_list,labels,path_to_results,name):
 
     results_list=np.transpose(results_list)
-    print(results_list)
+
     
     POI_results_mean=np.mean(results_list,axis=1)
-    print(POI_results_mean)
+
     POI_results_mean_frame=pd.DataFrame(POI_results_mean).transpose()
     POI_results_mean_frame.columns =labels
-    POI_results_mean_frame.to_csv(path_to_results+'/'+name+'_POI_results_sf.txt',index=False)
-    print(POI_results_mean_frame)
+    POI_results_mean_frame.to_csv(path_to_results+'/'+name+'_POI_results.txt',index=False)
+    
     return POI_results_mean.tolist()
 
 def ResultsToDict_NewMetrics(KS_pv_mean,KS_pv_std,KS_st_mean,KS_st_std,SWDmean,SWDstd):
@@ -430,7 +429,7 @@ def CornerPlotter(target_samples,nf_samples,path_to_plot,selection_list):
     labels_3=list( labels[i] for i in selection_list )
     labels=labels_3
     ndims=np.shape(target_samples)[1]
-    print(np.shape(target_samples)[0])
+ 
     red_bins=30
     density=(np.max(target_samples,axis=0)-np.min(target_samples,axis=0))/red_bins
    
@@ -465,7 +464,7 @@ def CornerPlotter(target_samples,nf_samples,path_to_plot,selection_list):
 
     return
 
-path_to_results='./results/newmet_1/run_2_b/'
+path_to_results='./results/official_results/'
 #results=os.listdir(path_to_results)
 #nsamples_test=100002
 nf_sample_exists=True
@@ -503,9 +502,9 @@ ndims,nsamples,bijector_name,nbijectors,batch_size,spline_knots,range_min,activa
 #targ_dist=MixtureGaussian(ndims)
 
 
-X_data_train_file = '../../NFLikelihoods-2/Toy-Likelihood/data/X_data_LF100_2M'
-X_data_test_file = '../../NFLikelihoods-2/Toy-Likelihood/data/X_data_test_LF100_500000'
-logprobs_data_test_file = '../../NFLikelihoods-2/Toy-Likelihood/data/logprobs_data_test_LF100_500000'
+X_data_train_file = 'data/X_data_LF100_2M'
+X_data_test_file = 'data/X_data_test_LF100_500000'
+logprobs_data_test_file = 'data/logprobs_data_test_LF100_500000'
 
 X_data_train,X_data_test,logprobs_data_test=loadData(X_data_train_file,X_data_test_file,logprobs_data_test_file)
 
@@ -518,23 +517,19 @@ preprocess_params=load_preprocess_params(preporcess_params_path)
 #X_data_test=targ_dist.sample(nsamples_test).numpy()
     
     
-
-
+#Uncomment this line to generate new samples
+'''
+nsamples_test=2000
 nf_dist=create_flow(bijector_name,ndims,spline_knots,range_min,hidden_layers,activation,regulariser,eps_regulariser)
 nf_dist,model=load_model(nf_dist,path_to_results,ndims,lr=.00001)
 files=os.listdir(path_to_results)
         
         
 #nf_dist=SoftClipTransform(nf_dist,1e-4)
-        
-        
-        
-        
-nsamples_test=200000
+
+
 save_sample(nf_dist,path_to_results,sample_size=nsamples_test,iter_size=400)
-
-nf_sample=load_sample(path_to_results)
-
+'''
 
 nf_sample=load_sample(path_to_results)
 
@@ -570,11 +565,8 @@ SWDMetric_tf = GMetrics.SWDMetric(TwoSampleTestInputs_tf,
 KSTest_tf.Test_np()
 
 KSres =KSTest_tf.Results[-1].result_value
-print("Keys:", list(KSres.keys()))
-print("Value dtype:", [type(x) for x in list(KSres.values())])
-print("Value shape:", [x.shape for x in list(KSres.values())])
 
-print('Result:',KSres.get('pvalue_means'))
+
                                                       
                                                       
 SaveNewMetrics(KSres,'KS',path_to_results)
@@ -582,7 +574,7 @@ SaveNewMetrics(KSres,'KS',path_to_results)
         
 KS_pvalues=GetReusltsForPOI(KSres.get('pvalue_lists'),labels,path_to_results,'KS_pv')
 
-print(KS_pvalues[14:21])
+
 
 GetReusltsForPOI(KSres.get('statistic_lists'),labels,path_to_results,'KS_st')
         
@@ -599,18 +591,12 @@ print('KS std', KS_pv_std)
 SWDMetric_tf.Test_np()
 
 SWDres =SWDMetric_tf.Results[-1].result_value
-print("Keys:", list(SWDres.keys()))
-print("Value dtype:", [type(x) for x in list(SWDres.values())])
-print("Value shape:", [x.shape for x in list(SWDres.values())])
 
-print('Result:',SWDres.get('metric_means'))
                                                       
                                                       
 SaveNewMetrics(SWDres,'SWD',path_to_results)
 SWDmean,SWDstd=MeansAndStdMetrics(SWDres.get('metric_means'))
-print('hey SWD')
-print(SWDres.get('metric_lists'))
-print(np.shape(SWDres.get('metric_lists')))
+
      
 
 print('SWD means', SWDmean)
