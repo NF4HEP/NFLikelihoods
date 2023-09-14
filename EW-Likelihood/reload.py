@@ -634,8 +634,8 @@ nf_dist=SoftClipTransform(nf_dist,1e-4)
 
 save_sample(nf_dist,path_to_results,sample_size=nsamples_test,iter_size=400)
 
-
 '''
+
 nf_sample=load_sample(path_to_results)
 
 nf_sample=postprocess_data(nf_sample,preprocess_params)
@@ -670,11 +670,9 @@ SWDMetric_tf = GMetrics.SWDMetric(TwoSampleTestInputs_tf,
 KSTest_tf.Test_np()
 
 KSres =KSTest_tf.Results[-1].result_value
-print("Keys:", list(KSres.keys()))
-print("Value dtype:", [type(x) for x in list(KSres.values())])
-print("Value shape:", [x.shape for x in list(KSres.values())])
 
-print('Result:',KSres.get('pvalue_means'))
+
+
                                                       
                                                       
 SaveNewMetrics(KSres,'KS',path_to_results)
@@ -682,7 +680,6 @@ SaveNewMetrics(KSres,'KS',path_to_results)
         
 KS_pvalues=GetReusltsForPOI(KSres.get('pvalue_lists'),labels,path_to_results,'KS_pv')
 
-print(KS_pvalues[14:21])
 
 GetReusltsForPOI(KSres.get('statistic_lists'),labels,path_to_results,'KS_st')
         
@@ -699,18 +696,12 @@ print('KS std', KS_pv_std)
 SWDMetric_tf.Test_np()
 
 SWDres =SWDMetric_tf.Results[-1].result_value
-print("Keys:", list(SWDres.keys()))
-print("Value dtype:", [type(x) for x in list(SWDres.values())])
-print("Value shape:", [x.shape for x in list(SWDres.values())])
 
-print('Result:',SWDres.get('metric_means'))
                                                       
                                                       
 SaveNewMetrics(SWDres,'SWD',path_to_results)
 SWDmean,SWDstd=MeansAndStdMetrics(SWDres.get('metric_means'))
-print('hey SWD')
-print(SWDres.get('metric_lists'))
-print(np.shape(SWDres.get('metric_lists')))
+
      
 
 print('SWD means', SWDmean)
