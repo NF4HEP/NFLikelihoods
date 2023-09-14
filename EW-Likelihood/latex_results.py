@@ -121,7 +121,7 @@ labels = [r'$\alpha_{S}(M_{Z})$',
 
 
 coeff_list=[14,15,16,17,18,19,20,21]
-path='./results/newmetrics_1/run_5/'
+path='./results/official_results/'
 path_to_frame=path+'/results_new_metrics__200000_all_whdpi.txt'
 
 path_frame_main_results=path+'/results_new_metrics__200000_whdpi.txt'

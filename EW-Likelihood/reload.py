@@ -526,7 +526,7 @@ def CornerPlotter(target_samples,nf_samples,path_to_plot,selection_list):
 
     return
 
-path_to_results='./results/official_results/run_5/'
+path_to_results='./results/official_results/'
 #results=os.listdir(path_to_results)
 #nsamples_test=100002
 nf_sample_exists=True
@@ -604,9 +604,9 @@ ndims,nsamples,bijector_name,nbijectors,batch_size,spline_knots,range_min,activa
 #targ_dist=MixtureGaussian(ndims)
 
 
-X_data_train_file = '../../NFLikelihoods-2/EW-Likelihood/data/X_data_EW_2_500k_1'
-X_data_test_file = '../../NFLikelihoods-2/EW-Likelihood/data/X_data_test_EW_2_300k_1'
-logprobs_data_test_file = '../../NFLikelihoods-2/EW-Likelihood/data/Y_data_test_EW_2_300k_1'
+X_data_train_file = 'data/X_data_EW_2_500k_1'
+X_data_test_file = 'data/X_data_test_EW_2_300k_1'
+logprobs_data_test_file = 'data/Y_data_test_EW_2_300k_1'
 
 X_data_train,X_data_test,logprobs_data_test=loadData(X_data_train_file,X_data_test_file,logprobs_data_test_file)
 
