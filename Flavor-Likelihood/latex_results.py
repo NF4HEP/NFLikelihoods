@@ -172,8 +172,8 @@ labels = [r"$|h_{0}^{(0)}|$",
 
 coeff_list=[77,78,79,80,81,82,83,84,85,86,87,88]
 path='results/official_results/'
-path_to_frame=path+'/results_new_metrics__2000_all_whdpi.txt'
-path_frame_main_results=path+'/results_new_metrics__2000_whdpi.txt'
+path_to_frame=path+'/results_new_metrics__500000_all_whdpi.txt'
+path_frame_main_results=path+'/results_new_metrics__500000_whdpi.txt'
 
 
 LatexMain(path_frame_main_results)

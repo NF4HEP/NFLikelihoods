@@ -709,14 +709,10 @@ X_data_train,X_data_test,logprobs_data_test=loadData(X_data_train_file,X_data_te
 preporcess_params_path='preprocess_data_flavorfit_new.pcl'
 preprocess_params=load_preprocess_params(preporcess_params_path)
 
-#n_total_test_samples=nsamples_test
-#X_data_train=X_data_train[:n_total_test_samples,:]
 
-#X_data_test=targ_dist.sample(nsamples_test).numpy()
-    
-    
-
-
+#Uncomment this lines to generate new samples
+'''
+nsamples_test=2000
 nf_dist=create_flow(bijector_name,ndims,spline_knots,range_min,hidden_layers,activation,regulariser,eps_regulariser)
 nf_dist,model=load_model(nf_dist,path_to_results,ndims,lr=.00001)
 files=os.listdir(path_to_results)
@@ -727,11 +723,11 @@ nf_dist=SoftClipTransform(nf_dist,1e-4)
         
         
         
-nsamples_test=2000
+
 save_sample(nf_dist,path_to_results,sample_size=nsamples_test,iter_size=400)
 
+'''
 nf_sample=load_sample(path_to_results)
-
 #nf_sample=load_sample(path_to_results)
 
 nf_sample=postprocess_data(nf_sample,preprocess_params)
